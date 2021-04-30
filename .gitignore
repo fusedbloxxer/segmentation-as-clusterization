@@ -2,7 +2,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,jupyternotebooks
 
 ### Input Resources Used ###
-data/input/clevr_with_masks_train.tfrecords
+data/input/
 
 ### JupyterNotebooks ###
 # gitignore template for Jupyter Notebooks

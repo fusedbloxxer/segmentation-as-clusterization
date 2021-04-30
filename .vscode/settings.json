@@ -1,4 +1,4 @@
 {
-    "jupyter.jupyterServerType": "remote",
+    "jupyter.jupyterServerType": "local",
     "python.pythonPath": "C:\\Users\\invokariman\\AppData\\Local\\Programs\\Python\\Python37\\python.exe"
 }
