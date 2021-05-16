@@ -9,14 +9,13 @@
     "momentum": 0.99,
     "n_filters": 8,
 
-    "seed": 1,
+    "seed": 2,
     "shuffle": true,
 
     "imgs_per_file": 1000,
     "lru_cache_size": 7,
 
     "input_dir": "./data/input/train_test_clevr_pkls",
-    "model_weights": "./data/temp/model/u-net.pt",
     "output_dir": "./data/output",
     "temp_dir": "./data/temp"
 }

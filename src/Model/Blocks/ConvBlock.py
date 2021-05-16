@@ -1,7 +1,9 @@
 import torch
 
 class ConvBlock(torch.nn.Module):
-    """ Apply consecutive convolutions, followed by an activation function. """
+    """ 
+        Apply consecutive convolutions, followed by an activation function. 
+    """
     def __init__(self, in_channels, out_channels, kernel_size=3, padding=1, batch_norm=True, **kwargs):
         super().__init__()
         # Batch normalization flag

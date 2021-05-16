@@ -1,29 +1,33 @@
-from src.Model.DownSample import DownSample
-from src.Model.ConvBlock import ConvBlock
-from src.Model.UpSample import UpSample
-from src.Model.OutConv import OutConv
+from src.Model.Blocks.DownSample import DownSample
+from src.Model.Blocks.ConvBlock import ConvBlock
+from src.Model.Blocks.UpSample import UpSample
+from src.Model.Blocks.OutConv import OutConv
 import torch
 
-class UNetCNN(torch.nn.Module):
-    def __init__(self, n_filters: int = 8) -> None:
+class AutoEncoderCNN(torch.nn.Module):
+    """ 
+        This AutoEncoder has 4 encoding layers followed by 4 decoding layers with a varying number of filters.
+        It also has the possibility of adding skip connections but the U-Net class should be used instead.
+    """
+    def __init__(self, io_channels=3, n_filters=8, skip=False, batch_norm=True, dropout=False, p=0.1) -> None:
         super().__init__()
         # Input Convolutional Layer
-        self.__in_conv_block = ConvBlock(3, n_filters)
+        self.__in_conv_block = ConvBlock(io_channels, n_filters, batch_norm=batch_norm)
 
         # Encoder Layers
-        self.__down_sample1 = DownSample(n_filters, n_filters * 2)
-        self.__down_sample2 = DownSample(n_filters * 2, n_filters * 4)
-        self.__down_sample3 = DownSample(n_filters * 4, n_filters * 8)
-        self.__down_sample4 = DownSample(n_filters * 8, n_filters * 16)
+        self.__down_sample1 = DownSample(n_filters, n_filters * 2, batch_norm=batch_norm, dropout=dropout, p=p)
+        self.__down_sample2 = DownSample(n_filters * 2, n_filters * 4, batch_norm=batch_norm, dropout=dropout, p=p)
+        self.__down_sample3 = DownSample(n_filters * 4, n_filters * 8, batch_norm=batch_norm, dropout=dropout, p=p)
+        self.__down_sample4 = DownSample(n_filters * 8, n_filters * 16, batch_norm=batch_norm, dropout=dropout, p=p)
 
-        # Decoder Layers
-        self.__up_sample4 = UpSample(n_filters * 16, n_filters * 8)
-        self.__up_sample3 = UpSample(n_filters * 8, n_filters * 4)
-        self.__up_sample2 = UpSample(n_filters * 4, n_filters * 2)
-        self.__up_sample1 = UpSample(n_filters * 2, n_filters)
+        # Decoder Layers (with optional skip connections)
+        self.__up_sample4 = UpSample(n_filters * 16, n_filters * 8, skip=skip, batch_norm=batch_norm, dropout=dropout, p=p)
+        self.__up_sample3 = UpSample(n_filters * 8, n_filters * 4, skip=skip, batch_norm=batch_norm, dropout=dropout, p=p)
+        self.__up_sample2 = UpSample(n_filters * 4, n_filters * 2, skip=skip, batch_norm=batch_norm, dropout=dropout, p=p)
+        self.__up_sample1 = UpSample(n_filters * 2, n_filters, skip=skip, batch_norm=batch_norm, dropout=dropout, p=p)
 
         # Output Convolutional Layer
-        self.__out_conv_block = OutConv(n_filters, 3)
+        self.__out_conv_block = OutConv(n_filters, io_channels)
 
         # Intermediary Outputs
         self.feature_maps = []

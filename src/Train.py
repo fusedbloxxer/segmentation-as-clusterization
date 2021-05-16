@@ -1,8 +1,7 @@
-from src.Process import preprocess
 from src.Config.Args import args
 import torch
 
-def train(model, train_loader, optimizer, criterion, epoch):
+def train(model, train_loader, optimizer, criterion, epoch, transform):
     # Set the model to training mode
     model.train()
 
@@ -15,7 +14,7 @@ def train(model, train_loader, optimizer, criterion, epoch):
         images, masks = images.to(args.device), masks.to(args.device)
 
         # Preprocess the images
-        images = preprocess(images)
+        images = transform(images)
         
         # Reset the gradients back to zero before calculating new loss
         optimizer.zero_grad()
