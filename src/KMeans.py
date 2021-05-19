@@ -3,7 +3,7 @@ from src.Config.Args import args
 import torch
 
 # Define the KMeans algorithm using cosine similarity
-def KMeans_cosine(x, K=10, n_init=10, max_iter=300, tol=1e-4, verbose=True):
+def KMeans_cosine(x, K=10, n_init=10, max_iter=300, tol=1e-4):
     """Implements Lloyd's algorithm for the Cosine similarity metric."""
     # Number of samples, dimension of the ambient space
     N, D = x.shape
@@ -66,11 +66,4 @@ def KMeans_cosine(x, K=10, n_init=10, max_iter=300, tol=1e-4, verbose=True):
                 # Exit the current run
                 break
 
-    if verbose:  # Fancy display -----------------------------------------------
-        if args.use_cuda:
-            torch.cuda.synchronize()
-        print(
-            f"K-means for the cosine similarity with {N:,} points in dimension {D:,}, K = {K:,}:"
-        )
-
-    return best['labels'], best['centroids']
+    return best['labels']

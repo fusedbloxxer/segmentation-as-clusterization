@@ -18,7 +18,7 @@ class UpSample(torch.nn.Module):
         self.__tconv = torch.nn.ConvTranspose2d(in_channels, out_channels if skip else in_channels, kernel_size, stride, bias=True, **kwargs)
 
         # Optional dropout layer
-        if dropout:
+        if self.__has_dropout:
             self.__dropout = torch.nn.Dropout2d(p)
 
         # Create a convolutional block

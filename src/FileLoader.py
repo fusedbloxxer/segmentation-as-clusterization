@@ -38,7 +38,7 @@ def load_data_file(filepath):
             entry['count'] = entry['count'].squeeze(0)
 
             # Sum the number of visible objects
-            entry['count'] = entry['count'].sum()
+            entry['count'] = entry['count'].sum().to(torch.int)
 
             # Remove unnecessary columns
             for key in set(entry.keys()) - {'image', 'mask', 'count'}:
