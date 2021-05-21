@@ -9,10 +9,10 @@ class AutoEncoderCNN(torch.nn.Module):
         This AutoEncoder has 4 encoding layers followed by 4 decoding layers with a varying number of filters.
         It also has the possibility of adding skip connections but the U-Net class should be used instead.
     """
-    def __init__(self, io_channels=3, n_filters=8, skip=False, batch_norm=True, dropout=False, p=0.1) -> None:
+    def __init__(self, in_channels=3, out_channels=3, n_filters=8, skip=False, batch_norm=True, dropout=False, p=0.1) -> None:
         super().__init__()
         # Input Convolutional Layer
-        self.__in_conv_block = ConvBlock(io_channels, n_filters, batch_norm=batch_norm)
+        self.__in_conv_block = ConvBlock(in_channels, n_filters, batch_norm=batch_norm)
 
         # Encoder Layers
         self.__down_sample1 = DownSample(n_filters, n_filters * 2, batch_norm=batch_norm, dropout=dropout, p=p)
@@ -27,7 +27,7 @@ class AutoEncoderCNN(torch.nn.Module):
         self.__up_sample1 = UpSample(n_filters * 2, n_filters, skip=skip, batch_norm=batch_norm, dropout=dropout, p=p)
 
         # Output Convolutional Layer
-        self.__out_conv_block = OutConv(n_filters, io_channels)
+        self.__out_conv_block = OutConv(n_filters, out_channels)
 
         # Intermediary Outputs
         self.feature_maps = []

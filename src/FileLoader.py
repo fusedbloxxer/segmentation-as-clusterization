@@ -40,9 +40,15 @@ def load_data_file(filepath):
             # Sum the number of visible objects
             entry['count'] = entry['count'].sum().to(torch.int)
 
+            # Retain the shape class indices
+            entry['shape'] = torch.from_numpy(entry['shape'])
+
+            # Remove extra nesting
+            entry['shape'] = entry['shape'].squeeze(0)
+
             # Remove unnecessary columns
-            for key in set(entry.keys()) - {'image', 'mask', 'count'}:
-                entry[key] = None
+            for key in set(entry.keys()) - {'image', 'mask', 'count', 'shape'}:
+                del entry[key]
                 
     # Return the processed data in Pytorch format
     return data

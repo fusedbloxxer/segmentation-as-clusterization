@@ -9,9 +9,9 @@ def train(model, train_loader, optimizer, criterion, epoch, transform):
     all_losses = []
 
     # Iterate through the data loarder and train the model
-    for batch_idx, (images, masks, counts) in enumerate(train_loader):
+    for batch_idx, entry in enumerate(train_loader):
         # Send the data to the available GPU
-        images, masks = images.to(args.device), masks.to(args.device)
+        images = entry['image'].to(args.device)
 
         # Preprocess the images
         images = transform(images)

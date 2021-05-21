@@ -35,8 +35,8 @@ class SegmentationDataset(Dataset):
         # Select the item at 'index % imgs_per_file'
         item = data[index % self.__imgs_per_file]
 
-        # Return a pair containing (image, mask)
-        return item['image'], item['mask'], item['count']
+        # Return the item dictionary
+        return item
 
     def __len__(self):
         """
