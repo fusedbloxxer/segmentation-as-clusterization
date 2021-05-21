@@ -1,6 +1,7 @@
 from src.Config.Args import args
 import torch
 
+
 def train(model, train_loader, optimizer, criterion, epoch, transform):
     # Set the model to training mode
     model.train()
@@ -42,3 +43,4 @@ def train(model, train_loader, optimizer, criterion, epoch, transform):
 
     # Return the losses of this epoch
     return torch.tensor(all_losses).mean()
+

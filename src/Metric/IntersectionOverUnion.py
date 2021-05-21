@@ -82,6 +82,33 @@ def segregate(labels: torch.Tensor, H: int, W: int) -> torch.Tensor:
     return masks
 
 
+def aggregate(masks: torch.Tensor, shapes: torch.Tensor) -> torch.Tensor:
+    """
+        This function takes as input ground truth masks of size
+        (N, 11, 1, H, W) and a shapes tensor of size (N, 11).
+        
+        Each set of masks is aggregated into a single image,
+        using the correspondent shapes tensor.
+
+        The output is a mask tensor of size (N, H, W), according
+        to the Pytorch loss function headers.
+    """
+    # Prepare shapes for broadcasting
+    shapes = shapes.unsqueeze(-1).unsqueeze(-1).unsqueeze(-1)
+
+    # Map masks from [0, 255] to [0, 1]
+    masks = torch.clamp(masks, min=0, max=1.0)
+
+    # Specify a class for each mask
+    masks = masks * shapes
+
+    # Aggregate masks
+    masks = masks.sum(dim=(1, 2))
+
+    # Return the output
+    return masks
+
+
 def jaccard_score_matrix(true_masks: torch.Tensor, pred_masks: torch.Tensor) -> torch.Tensor:
     """
         For each pair of masks obtained by the cartezian
