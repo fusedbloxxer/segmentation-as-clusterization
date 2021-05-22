@@ -116,7 +116,10 @@ def jaccard_score_matrix(true_masks: torch.Tensor, pred_masks: torch.Tensor) -> 
         the Intersection Over Union Metric, also known as
         the Jaccard Score.
 
-        Assemble the scores in a matrix of size (TML, PML),
+        The input masks should have a size of (N, H, W).
+        The output is of size min(TML, PML) x min(TML, PML).
+
+        Assemble the scores in a matrix of size min(TML, PML) x min(TML, PML),
         where aij = jaccard_score(TM[i], PM[j]).
 
         If TM and PM differ in length:
