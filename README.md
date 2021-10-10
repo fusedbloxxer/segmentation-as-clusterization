@@ -1,4 +1,4 @@
-# SegmentationAsClusterization
+# segmentation-as-clusterization
 
 Goal: Unsupervised segmentation of simple images
 
